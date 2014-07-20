@@ -22,7 +22,7 @@ makeCacheMatrix <- function(x = matrix()) {
     }
 
     # This function retrives the matrix stored in x. 
-    getMatrix < function() {
+    getMatrix <- function() {
         x
     }
     
@@ -35,11 +35,27 @@ makeCacheMatrix <- function(x = matrix()) {
     getInverse <- function() {
         xInv
     }
+    
+    list(setMatrix = setMatrix, getMatrix = getMatrix, setInverse =setInverse,
+         getInverse = getInverse)
 }
 
 
 ## Write a short comment describing this function
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+    ## Return a matrix that is the inverse of 'x'
+    
+    inv <- x$getInverse()
+        
+    if (!is.null(inv)) {
+        message("\nRetrieving cached inverse matrix.\n")
+        return(inv)
+    }
+    
+    m <- x$getMatrix()
+    inv <- solve(m)
+    x$setInverse(inv)
+    message("\nSolving for inverse matrix.\n")
+    inv
 }
